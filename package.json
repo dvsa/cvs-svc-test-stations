@@ -1,0 +1,52 @@
+{
+  "name": "crm-stub-service",
+  "version": "1.0.0",
+  "description": "CRM-stub service that stores and serves the ATF data",
+  "main": "src/handler.ts",
+  "scripts": {
+    "start": "serverless offline start",
+    "compile": "node_modules/.bin/tsc",
+    "copy-mockdata": "node_modules/.bin/copyfiles ./src/services/**/*.json ./.build",
+    "test": "node_modules/.bin/mocha .build/**/*.unitTest.js",
+    "test-i": "node_modules/.bin/mocha .build/**/*.intTest.js",
+    "tests": "npm run test && sls offline start > /dev/null 2>&1 & sleep 4 && npm run test-i && kill %1",
+    "lint": "node_modules/.bin/tslint -c tslint.json './services/**/*.ts'",
+    "build-openapi": "npm run compile-watch && npm run copy-localfiles && cd .build && sls openapi generate -f json && npm run openapireplace",
+    "build": "rm -rf .build && npm run compile && npm run copy-mockdata && npm run tests && npm run lint && npm run build-artifact",
+    "build-artifact": "rm -rf .build/.artifacts && sls package --package .build/.artifacts",
+    "openapireplace": "node openapiReplace.js",
+    "prepush": "npm test && npm run lint",
+    "predeploy": "npm install && npm run prepush",
+    "security-checks": "git secrets --scan && git log -p | scanrepo"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.13",
+    "@types/node": "^10.11.7",
+    "@types/uuid": "^3.4.4",
+    "@types/expect": "^1.20.3",
+    "@types/supertest": "^2.0.6",
+    "@types/mocha": "^5.2.5",
+    "aws-sdk": "^2.332.0",
+    "uuid": "^3.3.2",
+    "copyfiles": "^1.2.0",
+    "expect": "^21.2.1",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1",
+    "replace": "^0.3.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^4.0.2",
+    "supertest": "^3.0.0",
+    "wait-on": "^2.0.2",
+    "postinstall": "^0.4.2"
+  },
+  "devDependencies": {
+    "serverless": "^1.23.0",
+    "serverless-offline": "^3.27.0",
+    "serverless-plugin-typescript": "^1.1.5",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.2"
+  }
+}

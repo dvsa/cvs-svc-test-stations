@@ -1,0 +1,22 @@
+service:
+  name: cvs-services
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+package:
+  include:
+    - mocks/**
+
+functions:
+  getATFs:
+    handler: handler.getATFs
+    events:
+      - http:
+          method: get
+          path: atf

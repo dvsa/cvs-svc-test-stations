@@ -1,0 +1,13 @@
+{
+    "defaultSeverity": "error",
+    "extends": [],
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**"
+        ]
+    },
+    "jsRules": {},
+    "rules": {
+    },
+    "rulesDirectory": []
+}
