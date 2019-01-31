@@ -1,9 +1,8 @@
 /* global describe it context */
 const supertest = require('supertest')
 const expect = require('expect')
-const config = require('../../src/config/config')
 
-const url = `http://localhost:${config.OFFLINE.SERVERLESS_PORT}/`
+const url = `http://localhost:3004/`
 const request = supertest(url)
 
 describe('atfs', () => {
