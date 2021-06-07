@@ -18,7 +18,7 @@
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
     "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
     "test:dev": "npm run build:dev && npm run test",
-    "prepush": "npm run tslint && npm run coverage",
+    "prepush": "npm run build && npm run coverage",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
     "tslint": "tslint tests/**/*.ts src/**/*.ts",
@@ -83,7 +83,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm run security-checks",
+      "pre-commit": "npm run audit-dep && npm run security-checks && npm run tslint",
       "pre-push": "npm run prepush"
     }
   }
