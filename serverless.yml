@@ -40,7 +40,7 @@ functions:
 
 custom:
   serverless-offline:
-    port: 3004
+    httpPort: 3004
   dynamodb:
     stages:
       - dev
