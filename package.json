@@ -23,7 +23,9 @@
     "sonar-scanner": "sonar-scanner",
     "audit": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "node_modules/.bin/sls dynamodb install"
+    "tools-setup": "node_modules/.bin/sls dynamodb install",
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+    "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format"
   },
   "author": "",
   "license": "MIT",
@@ -72,12 +74,5 @@
     "reportPath": ".reports",
     "reportFile": "test-report.xml",
     "indent": 4
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
-      "pre-push": "npm run prepush"
-    }
   }
 }
