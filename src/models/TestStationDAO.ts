@@ -87,4 +87,58 @@ export class TestStationDAO {
     };
     return TestStationDAO.dbClient.put(params).promise();
   }
+
+  /**
+   * Write data about multiple Test Stations to the DB. Only used by the integration tests.
+   * @param testStationItems: ITestStation[]
+   * @returns DynamoDB BatchWriteItemOutput, wrapped in promises
+   */
+  public createMultiple(
+    testStationItems: ITestStation[]
+  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
+    const params = this.generatePartialParams();
+
+    testStationItems.map((testStationItem: ITestStation) => {
+      params.RequestItems[this.tableName].push({
+        PutRequest: {
+          Item: testStationItem,
+        },
+      });
+    });
+
+    return TestStationDAO.dbClient.batchWrite(params).promise();
+  }
+
+  /**
+   * Removes multiple Test Stations from the DB. Only used by the integration tests.
+   * @param primaryKeysToBeDeleted
+   */
+   public deleteMultiple(
+    primaryKeysToBeDeleted: string[]
+  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
+    const params = this.generatePartialParams();
+
+    primaryKeysToBeDeleted.forEach((key: string) => {
+      params.RequestItems[this.tableName].push({
+        DeleteRequest: {
+          Key: {
+            testStationId: key,
+          },
+        },
+      });
+    });
+
+    return TestStationDAO.dbClient.batchWrite(params).promise();
+  }
+
+  /**
+   * Internal method for getting a common parameter template
+   */
+   private generatePartialParams(): any {
+    return {
+      RequestItems: {
+        [this.tableName]: Array(),
+      },
+    };
+  }
 }
