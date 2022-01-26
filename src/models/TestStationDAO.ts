@@ -74,102 +74,17 @@ export class TestStationDAO {
   }
 
   /**
-   * Write data about multiple Test Stations to the DB.
-   * @param testStationItems: ITestStation[]
-   * @returns DynamoDB BatchWriteItemOutput, wrapped in promises
+   * Insert or update a Test Station in the DB.
+   * @param testStationItem: ITestStation
+   * @returns DynamoDB PutItemOutput, wrapped in promises
    */
-  public createMultiple(
-    testStationItems: ITestStation[]
-  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
-    const params = this.generatePartialParams();
-
-    testStationItems.map((testStationItem: ITestStation) => {
-      params.RequestItems[this.tableName].push({
-        PutRequest: {
-          Item: testStationItem,
-        },
-      });
-    });
-
-    return TestStationDAO.dbClient.batchWrite(params).promise();
-  }
-
-  /**
-   * Write data about multiple Test Stations to the DB.
-   * @param testStationItem: ITestStation[]
-   * @returns DynamoDB BatchWriteItemOutput, wrapped in promises
-   */
-  public createItem(
+  public putItem(
     testStationItem: ITestStation
   ): Promise<PromiseResult<DocumentClient.PutItemOutput, AWS.AWSError>> {
     const params = {
       TableName: this.tableName,
       Item: testStationItem,
-      ConditionExpression: "attribute_not_exists(testStationId)",
     };
     return TestStationDAO.dbClient.put(params).promise();
-  }
-
-  /**
-   * Removes multiple Test Stations from the DB
-   * @param primaryKeysToBeDeleted
-   */
-  public deleteMultiple(
-    primaryKeysToBeDeleted: string[]
-  ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
-    const params = this.generatePartialParams();
-
-    primaryKeysToBeDeleted.forEach((key: string) => {
-      params.RequestItems[this.tableName].push({
-        DeleteRequest: {
-          Key: {
-            testStationId: key,
-          },
-        },
-      });
-    });
-
-    return TestStationDAO.dbClient.batchWrite(params).promise();
-  }
-
-  /**
-   * Performs a write transaction on the specified table.
-   * @param item - the item to be inserted or updated during the transaciton.
-   * @param oldItem - the current item that already exists in the database.
-   */
-  public transactWrite(
-    item: any,
-    transactExpression: {
-      ConditionExpression: string;
-      ExpressionAttributeValues: any;
-    }
-  ): Promise<
-    PromiseResult<DocumentClient.TransactWriteItemsOutput, AWS.AWSError>
-  > {
-    const query: DocumentClient.TransactWriteItemsInput = {
-      TransactItems: [
-        {
-          Put: {
-            TableName: this.tableName,
-            Item: item,
-            ConditionExpression: transactExpression.ConditionExpression,
-            ExpressionAttributeValues:
-              transactExpression.ExpressionAttributeValues,
-          },
-        },
-      ],
-    };
-    return TestStationDAO.dbClient.transactWrite(query).promise();
-  }
-
-  /**
-   * Internal method for getting a common parameter template
-   */
-  private generatePartialParams(): any {
-    return {
-      RequestItems: {
-        [this.tableName]: Array(),
-      },
-    };
   }
 }

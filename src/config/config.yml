@@ -11,17 +11,11 @@ functions:
       proxy: :testStationPNumber
       function: getTestStationsEmails
       event: lambda
-  - createTestStation:
+  - putTestStation:
       method: POST
       path: /test-stations
       proxy: null
-      function: createTestStation
-      event: lambda
-  - updateTestStation:
-      method: PUT
-      path: /test-stations/{+proxy}
-      proxy: :testStationId
-      function: updateTestStation
+      function: putTestStation
       event: lambda
 dynamodb:
   local:
