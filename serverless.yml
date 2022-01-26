@@ -1,8 +1,8 @@
 service: cvs-svc-test-station
 configValidationMode: warn
 plugins:
-  - serverless-offline
   - serverless-dynamodb-local
+  - serverless-offline
   - serverless-plugin-typescript
   - serverless-plugin-tracing
 
@@ -40,7 +40,7 @@ functions:
 
 custom:
   serverless-offline:
-    httpPort: 3004
+    port: 3004
   dynamodb:
     stages:
       - dev
