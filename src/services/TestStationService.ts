@@ -53,59 +53,12 @@ export class TestStationService {
   };
 
   /**
-   * Add the provided Test Stations (ATFs) details to the DB. Currently unused.
-   * @param testStationItems (TestStation array)
+   * Update or insert the provided Test Station details to the DB.
+   * @param testStationItem (TestStation)
    */
-  public insertTestStation(testStationItem: ITestStation) {
+  public putTestStation(testStationItem: ITestStation) {
     return this.testStationDAO
-      .createItem(testStationItem)
-      .then((data: any) => {
-        if (data.UnprocessedItems) {
-          return data.UnprocessedItems;
-        }
-      })
-      .catch((error: any) => {
-        if (error) {
-          console.error(error);
-        }
-        throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
-      });
-  }
-
-  /**
-   * Add the provided Test Stations (ATFs) details to the DB. Currently unused.
-   * @param testStationItem: new body of the test station
-   * @param id: the id of the test station being updated
-   */
-  public updateTestStation(testStationItem: ITestStation, id: string) {
-    const transactExpression = {
-      ConditionExpression: "testStationId = :testStationId",
-      ExpressionAttributeValues: {
-        ":testStationId": id,
-      },
-    };
-    return this.testStationDAO
-      .transactWrite(testStationItem, transactExpression)
-      .then((data: any) => {
-        if (data.UnprocessedItems) {
-          return data.UnprocessedItems;
-        }
-      })
-      .catch((error: any) => {
-        if (error) {
-          console.error(error);
-        }
-        throw new HTTPError(500, error);
-      });
-  }
-
-  /**
-   * Remove specified Test Stations from the DB
-   * @param testStationItemsKeys
-   */
-  public deleteTestStationsList(testStationItemsKeys: string[]) {
-    return this.testStationDAO
-      .deleteMultiple(testStationItemsKeys)
+      .putItem(testStationItem)
       .then((data: any) => {
         if (data.UnprocessedItems) {
           return data.UnprocessedItems;
