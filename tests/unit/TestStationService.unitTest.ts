@@ -1,8 +1,8 @@
-import { ITestStation } from "../../src/models/ITestStation";
 import { HTTPError } from "../../src/models/HTTPError";
 import { TestStationService } from "../../src/services/TestStationService";
 import stations from "../resources/test-stations.json";
 import { ERRORS } from "../../src/utils/Enum";
+import { TestStationDAO } from "../../src/models/TestStationDAO";
 const stationIds = stations.map((station) => station.testStationId);
 
 describe("TestStationService", () => {
@@ -119,7 +119,7 @@ describe("TestStationService", () => {
           try {
             const returnedRecords =
               await testStationService.getTestStationEmails("87-1369569");
-            expect(returnedRecords.length).toEqual(3);
+            expect(returnedRecords.length).toEqual(2);
           } catch (e) {
             expect.assertions(1); // should have thrown an error, test failed
           }
@@ -232,7 +232,7 @@ describe("TestStationService", () => {
           });
       });
 
-      it("should return the unprocessed items", () => {
+      it("should log an error if an unprocessed item is returned", async () => {
         const TestStationDAOMock = jest.fn().mockImplementation(() => {
           return {
             putItem: () => {
@@ -240,27 +240,40 @@ describe("TestStationService", () => {
             },
           };
         });
+        const consoleSpy = jest
+          .spyOn(console, "error")
+          .mockImplementation(() => {
+            return;
+          });
 
         const testStationService = new TestStationService(
           new TestStationDAOMock()
         );
-        return testStationService
-          .putTestStation(stations[0])
-          .then((data: any) => {
-            expect(data).toHaveLength(20);
-          });
+
+        let err;
+        try {
+          await testStationService.putTestStation(stations[0]);
+        } catch (error) {
+          err = error;
+        }
+
+        expect(consoleSpy).toBeCalledTimes(1);
+        expect(consoleSpy).toBeCalledWith(
+          `Item not added: ${JSON.stringify([...stations])}`
+        );
+        expect(err).toEqual(new Error("Failed to add item to dynamo table."));
       });
     });
 
     context("database call fails inserting items", () => {
-      it("should return error 500, irrespective of the error", () => {
+      it("should throw an error", () => {
         const spy = jest.spyOn(console, "error").mockImplementation(() => {
           return;
         });
         const TestStationDAOMock = jest.fn().mockImplementation(() => {
           return {
             putItem: () => {
-              return Promise.reject();
+              return Promise.reject(new Error("DynamoDB goes bang!"));
             },
           };
         });
@@ -274,40 +287,9 @@ describe("TestStationService", () => {
           .then(() => {
             return;
           })
-          .catch((errorResponse: any) => {
+          .catch((error: any) => {
             expect(spy.mock.calls).toHaveLength(0);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
-          });
-      });
-
-      it("should console log the error message, if a error is passed", () => {
-        const spy = jest.spyOn(console, "error").mockImplementation(() => {
-          return;
-        });
-        const TestStationDAOMock = jest.fn().mockImplementation(() => {
-          return {
-            putItem: () => {
-              return Promise.reject(new Error("It broke"));
-            },
-          };
-        });
-
-        const testStationService = new TestStationService(
-          new TestStationDAOMock()
-        );
-
-        return testStationService
-          .putTestStation(stations[0])
-          .then(() => {
-            return;
-          })
-          .catch((errorResponse: any) => {
-            expect(spy.mock.calls).toHaveLength(1);
-            expect(errorResponse).toBeInstanceOf(HTTPError);
-            expect(errorResponse.statusCode).toEqual(500);
-            expect(errorResponse.body).toEqual("Internal Server Error");
+            expect(error).toEqual(new Error("DynamoDB goes bang!"));
           });
       });
     });
