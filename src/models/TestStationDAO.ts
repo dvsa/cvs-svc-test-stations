@@ -113,7 +113,7 @@ export class TestStationDAO {
    * Removes multiple Test Stations from the DB. Only used by the integration tests.
    * @param primaryKeysToBeDeleted
    */
-   public deleteMultiple(
+  public deleteMultiple(
     primaryKeysToBeDeleted: string[]
   ): Promise<PromiseResult<DocumentClient.BatchWriteItemOutput, AWS.AWSError>> {
     const params = this.generatePartialParams();
@@ -134,7 +134,7 @@ export class TestStationDAO {
   /**
    * Internal method for getting a common parameter template
    */
-   private generatePartialParams(): any {
+  private generatePartialParams(): any {
     return {
       RequestItems: {
         [this.tableName]: Array(),

@@ -56,19 +56,11 @@ export class TestStationService {
    * Update or insert the provided Test Station details to the DB.
    * @param testStationItem (TestStation)
    */
-  public putTestStation(testStationItem: ITestStation) {
-    return this.testStationDAO
-      .putItem(testStationItem)
-      .then((data: any) => {
-        if (data.UnprocessedItems) {
-          return data.UnprocessedItems;
-        }
-      })
-      .catch((error: any) => {
-        if (error) {
-          console.error(error);
-        }
-        throw new HTTPError(500, ERRORS.INTERNAL_SERVER_ERROR);
-      });
+  public async putTestStation(testStationItem: ITestStation) {
+    const data: any = await this.testStationDAO.putItem(testStationItem);
+    if (data?.UnprocessedItems) {
+      console.error(`Item not added: ${JSON.stringify(data.UnprocessedItems)}`);
+      throw new Error(ERRORS.FAILED_TO_ADD_ITEM);
+    }
   }
 }

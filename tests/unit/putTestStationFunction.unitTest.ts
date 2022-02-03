@@ -1,22 +1,18 @@
 import { TestStationService } from "../../src/services/TestStationService";
 import { HTTPError } from "../../src/models/HTTPError";
-import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { putTestStation } from "../../src/functions/putTestStation";
 
 jest.mock("../../src/services/TestStationService");
 
 describe("putTestStation Handler", () => {
-  context("Service returns data", () => {
-    it("returns response with data", async () => {
+  context("Service puts without exception", () => {
+    it("resolves without exception", async () => {
       TestStationService.prototype.putTestStation = jest
         .fn()
         .mockImplementation(() => {
-          return Promise.resolve("all good");
+          return Promise.resolve();
         });
-      const res: HTTPResponse | HTTPError = await putTestStation({});
-      expect(res).toBeInstanceOf(HTTPResponse);
-      expect(res.statusCode).toEqual(202);
-      expect(res.body).toEqual(JSON.stringify("all good"));
+      expect(await putTestStation({})).resolves;
     });
   });
 

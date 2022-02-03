@@ -4,19 +4,11 @@ functions:
       path: /test-stations
       proxy: null
       function: getTestStations
-      event: apigateway
   - getTestStationsEmails:
       method: GET
       path: /test-stations/{+proxy}
       proxy: :testStationPNumber
       function: getTestStationsEmails
-      event: lambda
-  - putTestStation:
-      method: POST
-      path: /test-stations
-      proxy: null
-      function: putTestStation
-      event: lambda
 dynamodb:
   local:
     params:
