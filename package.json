@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "BRANCH=local serverless offline start",
-    "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
+    "build": "tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
     "test": "npm run test:unit -- --coverage",
     "test:unit": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\" --runInBand",
@@ -22,7 +22,7 @@
     "sonar-scanner": "sonar-scanner",
     "audit": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "node_modules/.bin/sls dynamodb install",
+    "tools-setup": "sls dynamodb install && husky install",
     "commit-msg": "commitlint --edit $1",
     "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
     "predeploy": "npm install && npm run prepush"
