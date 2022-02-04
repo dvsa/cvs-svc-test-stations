@@ -1,5 +1,4 @@
 import { spawn } from "child_process";
-import { killTestSetup } from "./destroyServices";
 
 // We hook to serverless offline when firing its process
 const SERVER_OK = `Enter "rp" to replay the last request`;
