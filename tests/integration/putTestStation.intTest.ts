@@ -1,18 +1,18 @@
+import stations from "../resources/test-stations.json";
 import supertest from "supertest";
-import LambdaTester from "lambda-tester";
-import { getTestStations } from "../../src/functions/getTestStations";
-import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { emptyDatabase, populateDatabase } from "../util/dbOperations";
+import { ITestStation } from "../../src/models/ITestStation";
 const url = "http://localhost:3004/";
 const request = supertest(url);
+let testStation: ITestStation;
 
 describe("getTestStation", () => {
   beforeAll(async () => {
-    jest.restoreAllMocks();
     await emptyDatabase();
   });
 
   beforeEach(async () => {
+    testStation = JSON.parse(JSON.stringify(stations[0]));
     await populateDatabase();
   });
 
@@ -28,19 +28,21 @@ describe("getTestStation", () => {
     it("get should return the updated record", async () => {
       const originalResponse = [
         {
-          testStationPNumber: "84-926821",
+          testStationPNumber: "87-1369569",
           testStationEmails: [
             "teststationname@dvsa.gov.uk",
             "teststationname1@dvsa.gov.uk",
+            "teststationname2@dvsa.gov.uk",
           ],
-          testStationId: "2",
+          testStationId: "1",
         },
       ];
 
-      const originalRes = await request.get("test-stations/84-926821");
+      const originalRes = await request.get("test-stations/87-1369569");
       expect(originalRes.status).toEqual(200);
       expect(originalRes.body).toStrictEqual(originalResponse);
 
+      testStation.testStationEmails.push("teststationname3@dvsa.gov.uk");
       const testStationUpdateEvent = {
         version: "0",
         id: "3b8d813d-9e1c-0c30-72f9-7539de987e31",
@@ -49,15 +51,7 @@ describe("getTestStation", () => {
         time: "2000-01-01T00:00:00Z",
         region: "eu-west-1",
         resources: [],
-        detail: {
-          testStationPNumber: "84-926821",
-          testStationEmails: [
-            "teststationname@dvsa.gov.uk",
-            "teststationname1@dvsa.gov.uk",
-            "teststationname2@dvsa.gov.uk",
-          ],
-          testStationId: "2",
-        },
+        detail: testStation,
       };
 
       await request
@@ -68,24 +62,30 @@ describe("getTestStation", () => {
 
       const updatedResponse = [
         {
-          testStationPNumber: "84-926821",
+          testStationPNumber: "87-1369569",
           testStationEmails: [
             "teststationname@dvsa.gov.uk",
             "teststationname1@dvsa.gov.uk",
             "teststationname2@dvsa.gov.uk",
+            "teststationname3@dvsa.gov.uk",
           ],
-          testStationId: "2",
+          testStationId: "1",
         },
       ];
 
-      const res = await request.get("test-stations/84-926821");
+      const res = await request.get("test-stations/87-1369569");
       expect(res.status).toEqual(200);
       expect(res.body).toStrictEqual(updatedResponse);
+
+      return;
     });
   });
 
   context("when inserting a record", () => {
     it("get should return the inserted record", async () => {
+      testStation.testStationId = "123-456-789";
+      testStation.testStationPNumber = "84-123456";
+
       const originalRes = await request.get("test-stations/84-123456");
       expect(originalRes.status).toEqual(200);
       expect(originalRes.body).toStrictEqual("");
@@ -98,14 +98,7 @@ describe("getTestStation", () => {
         time: "2000-01-01T00:00:00Z",
         region: "eu-west-1",
         resources: [],
-        detail: {
-          testStationPNumber: "84-123456",
-          testStationEmails: [
-            "teststationname@dvsa.gov.uk",
-            "teststationname1@dvsa.gov.uk",
-          ],
-          testStationId: "2",
-        },
+        detail: testStation,
       };
 
       await request
@@ -120,8 +113,9 @@ describe("getTestStation", () => {
           testStationEmails: [
             "teststationname@dvsa.gov.uk",
             "teststationname1@dvsa.gov.uk",
+            "teststationname2@dvsa.gov.uk",
           ],
-          testStationId: "2",
+          testStationId: "123-456-789",
         },
       ];
 

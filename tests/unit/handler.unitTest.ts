@@ -1,7 +1,8 @@
 import * as getTestStations from "../../src/functions/getTestStations";
 import * as putTestStation from "../../src/functions/putTestStation";
-import sinon from "sinon";
 import mockContext from "aws-lambda-mock-context";
+import sinon from "sinon";
+import stations from "../resources/test-stations.json";
 import { handler } from "../../src/handler";
 import { TestStationService } from "../../src/services/TestStationService";
 import { TestStationDAO } from "../../src/models/TestStationDAO";
@@ -27,9 +28,7 @@ describe("The lambda function handling EventBridgeEvent", () => {
     it("should process events from correct source", async () => {
       const event = {
         source: "cvs.update.test.stations",
-        detail: {
-          testing: "123",
-        },
+        detail: stations[0],
       } as EventBridgeEvent<any, any>;
 
       const putTestStationStub = sinon.stub(putTestStation);
@@ -42,9 +41,7 @@ describe("The lambda function handling EventBridgeEvent", () => {
     it("should reject events from wrong source", async () => {
       const event = {
         source: "some.other.source",
-        detail: {
-          testing: "123",
-        },
+        detail: stations[0],
       } as EventBridgeEvent<any, any>;
 
       let err;
@@ -64,9 +61,7 @@ describe("The lambda function handling EventBridgeEvent", () => {
     it("should throw the correct error if put fails in models/TestStationDAO", async () => {
       const event = {
         source: "cvs.update.test.stations",
-        detail: {
-          testing: "123",
-        },
+        detail: stations[0],
       } as EventBridgeEvent<any, any>;
 
       jest.spyOn(TestStationDAO.prototype, "putItem").mockImplementation(() => {
@@ -90,9 +85,7 @@ describe("The lambda function handling EventBridgeEvent", () => {
     it("should throw the correct error if put fails in services/TestStationService", async () => {
       const event = {
         source: "cvs.update.test.stations",
-        detail: {
-          testing: "123",
-        },
+        detail: stations[0],
       } as EventBridgeEvent<any, any>;
 
       jest
@@ -120,9 +113,7 @@ describe("The lambda function handling EventBridgeEvent", () => {
     it("should throw the correct error if put fails in functions/putTestStation", async () => {
       const event = {
         source: "cvs.update.test.stations",
-        detail: {
-          testing: "123",
-        },
+        detail: stations[0],
       } as EventBridgeEvent<any, any>;
 
       const putTestStationStub = sinon.stub(putTestStation);
@@ -142,6 +133,27 @@ describe("The lambda function handling EventBridgeEvent", () => {
         "Oh no, it broke in functions/putTestStation!"
       );
       expect(err).toEqual("Oh no, it broke in functions/putTestStation!");
+    });
+
+    it("should reject events with invalid test station object", async () => {
+      const event = {
+        source: "cvs.update.test.stations",
+        detail: stations[1],
+      } as EventBridgeEvent<any, any>;
+      event.detail.testStationId = undefined;
+
+      let err;
+      try {
+        await handler(event, ctx);
+      } catch (error) {
+        err = error;
+      }
+
+      expect(consoleSpy).toBeCalledTimes(1);
+      expect(consoleSpy).toBeCalledWith(
+        new Error('"testStationId" is required')
+      );
+      expect(err).toEqual(new Error('"testStationId" is required'));
     });
   });
 });
