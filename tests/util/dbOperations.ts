@@ -18,18 +18,17 @@ export const populateDatabase = async () => {
 export const emptyDatabase = async () => {
   const testStationDAO = new TestStationDAO();
   let currentTestStations: ITestStation[] = [];
-  await testStationDAO.getAll(null)
-    .then(async (data: any) =>{
-      currentTestStations = data.Items;
-      const mockBuffer = _.cloneDeep(currentTestStations).map(
-        (station) => station.testStationId
-      );
-      const batches = [];
-      while (mockBuffer.length > 0) {
-        batches.push(mockBuffer.splice(0, 25));
-      }
-      for (const batch of batches) {
-        await testStationDAO.deleteMultiple(batch);
-      }
-    });
+  await testStationDAO.getAll(null).then(async (data: any) => {
+    currentTestStations = data.Items;
+    const mockBuffer = _.cloneDeep(currentTestStations).map(
+      (station) => station.testStationId
+    );
+    const batches = [];
+    while (mockBuffer.length > 0) {
+      batches.push(mockBuffer.splice(0, 25));
+    }
+    for (const batch of batches) {
+      await testStationDAO.deleteMultiple(batch);
+    }
+  });
 };

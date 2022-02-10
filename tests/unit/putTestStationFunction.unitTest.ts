@@ -1,7 +1,7 @@
 import stations from "../resources/test-stations.json";
-import { TestStationService } from "../../src/services/TestStationService";
-import { putTestStation } from "../../src/functions/putTestStation";
 import { ITestStation } from "../../src/models/ITestStation";
+import { putTestStation } from "../../src/functions/putTestStation";
+import { TestStationService } from "../../src/services/TestStationService";
 
 jest.mock("../../src/services/TestStationService");
 
