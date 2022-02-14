@@ -24,13 +24,13 @@ async function validateTestStation(testStation: any) {
       ),
     testStationName: Joi.string().required(),
     testStationContactNumber: Joi.string().required(),
-    testStationAccessNotes: Joi.string(),
-    testStationGeneralNotes: Joi.string(),
+    testStationAccessNotes: Joi.string().allow(null),
+    testStationGeneralNotes: Joi.string().allow(null),
     testStationTown: Joi.string().required(),
     testStationAddress: Joi.string().required(),
     testStationPostcode: Joi.string().required(),
-    testStationLongitude: Joi.number(),
-    testStationLatitude: Joi.number(),
+    testStationLongitude: Joi.number().allow(null),
+    testStationLatitude: Joi.number().allow(null),
     testStationType: Joi.any()
       .required()
       .valid("atf", "tass", "gvts", "potf", "other"),
