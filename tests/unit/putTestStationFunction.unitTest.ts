@@ -94,16 +94,15 @@ describe("putTestStation Handler", () => {
       }
     });
 
-    it("A missing testStationAccessNotes should throw an error.", async () => {
+    it("A missing testStationAccessNotes should not throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationAccessNotes = undefined;
-      expect.assertions(2);
-      try {
-        await putTestStation(invalidTestStation);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationAccessNotes" is required');
-      }
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
     });
 
     it("A missing testStationAddress should throw an error.", async () => {
@@ -142,28 +141,15 @@ describe("putTestStation Handler", () => {
       }
     });
 
-    it("A missing testStationGeneralNotes should throw an error.", async () => {
+    it("A missing testStationGeneralNotes should not throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationGeneralNotes = undefined;
-      expect.assertions(2);
-      try {
-        await putTestStation(invalidTestStation);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationGeneralNotes" is required');
-      }
-    });
-
-    it("A missing testStationGeneralNotes should throw an error.", async () => {
-      const invalidTestStation: any = testStation;
-      invalidTestStation.testStationGeneralNotes = undefined;
-      expect.assertions(2);
-      try {
-        await putTestStation(invalidTestStation);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationGeneralNotes" is required');
-      }
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
     });
 
     it("A missing testStationId should throw an error.", async () => {
@@ -178,28 +164,26 @@ describe("putTestStation Handler", () => {
       }
     });
 
-    it("A missing testStationLatitude should throw an error.", async () => {
+    it("A missing testStationLatitude should not throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationLatitude = undefined;
-      expect.assertions(2);
-      try {
-        await putTestStation(invalidTestStation);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationLatitude" is required');
-      }
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
     });
 
-    it("A missing testStationLongitude should throw an error.", async () => {
+    it("A missing testStationLongitude should not throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationLongitude = undefined;
-      expect.assertions(2);
-      try {
-        await putTestStation(invalidTestStation);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toEqual('"testStationLongitude" is required');
-      }
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
     });
 
     it("A missing testStationName should throw an error.", async () => {
