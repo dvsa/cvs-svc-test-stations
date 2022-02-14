@@ -105,6 +105,17 @@ describe("putTestStation Handler", () => {
       expect(await putTestStation(testStation)).resolves;
     });
 
+    it("A null testStationAccessNotes should not throw an error.", async () => {
+      const invalidTestStation: any = testStation;
+      invalidTestStation.testStationAccessNotes = null;
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
+    });
+
     it("A missing testStationAddress should throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationAddress = undefined;
@@ -152,6 +163,17 @@ describe("putTestStation Handler", () => {
       expect(await putTestStation(testStation)).resolves;
     });
 
+    it("A null testStationGeneralNotes should not throw an error.", async () => {
+      const invalidTestStation: any = testStation;
+      invalidTestStation.testStationGeneralNotes = null;
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
+    });
+
     it("A missing testStationId should throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationId = undefined;
@@ -175,9 +197,31 @@ describe("putTestStation Handler", () => {
       expect(await putTestStation(testStation)).resolves;
     });
 
+    it("A null testStationLatitude should not throw an error.", async () => {
+      const invalidTestStation: any = testStation;
+      invalidTestStation.testStationLatitude = null;
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
+    });
+
     it("A missing testStationLongitude should not throw an error.", async () => {
       const invalidTestStation: any = testStation;
       invalidTestStation.testStationLongitude = undefined;
+      TestStationService.prototype.putTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.resolve();
+        });
+      expect(await putTestStation(testStation)).resolves;
+    });
+
+    it("A null testStationLongitude should not throw an error.", async () => {
+      const invalidTestStation: any = testStation;
+      invalidTestStation.testStationLongitude = null;
       TestStationService.prototype.putTestStation = jest
         .fn()
         .mockImplementation(() => {
