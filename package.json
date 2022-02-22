@@ -27,7 +27,7 @@
     "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
     "predeploy": "npm install && npm run prepush"
   },
-  "author": "Andrew Freemantle (Testing git-push hook)",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "2.1062.0",
