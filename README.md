@@ -113,6 +113,40 @@ SLS_DEBUG = *
 BRANCH = local
 ```
 
+*GET* operations are exposed to the VTA App via API Gateway.
+```
+https://api.gateway.uri/develop/test-stations/P12345
+```
+*PUT* operations are via direct lambda invocation with an EventBridgeEvent object.
+```
+{
+  "version":"0",
+  "id":"3b8d813d-9e1c-0c30-72f9-7539de987e31",
+  "detail-type":"CVS Update Test Stations",
+  "source":"cvs.update.test.stations",
+  "account":"1234567890",
+  "time":"2022-01-26T12:18:26Z",
+  "region":"eu-west-1",
+  "resources":[],
+  "detail":{
+    "testStationId": "fb342fef-725e-ec11-8f8f-002248437f2d",
+    "testStationAccessNotes": null,
+    "testStationAddress": "Test Street 1, null",
+    "testStationContactNumber": "0115 0115115,
+    "testStationEmails": [ "test@test.com" ],
+    "testStationGeneralNotes": "Some words.",
+    "testStationLongitude": -1.5882060527801514,
+    "testStationLatitude": 55.01923751831055,
+    "testStationName": "Test ATF",
+    "testStationPNumber": "P12345",
+    "testStationPostcode": "NE12 3AB",
+    "testStationStatus": "Active",
+    "testStationTown": "Testtown",
+    "testStationType": "ATF"
+  }
+}
+```
+
 ## Testing
 
 Jest is used for unit testing.
