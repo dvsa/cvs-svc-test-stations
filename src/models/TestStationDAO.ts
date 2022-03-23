@@ -78,14 +78,40 @@ export class TestStationDAO {
    * @param testStationItem: ITestStation
    * @returns DynamoDB PutItemOutput, wrapped in promises
    */
-  public putItem(
+  public async putItem(
     testStationItem: ITestStation
   ): Promise<PromiseResult<DocumentClient.PutItemOutput, AWS.AWSError>> {
+    const pNumber = testStationItem.testStationPNumber
+    const testStationId: string = await this.getTestStaionIdByPNumber(pNumber);
+    testStationItem.testStationId = testStationId ? testStationId : testStationItem.testStationId;
     const params = {
       TableName: this.tableName,
       Item: testStationItem,
     };
     return TestStationDAO.dbClient.put(params).promise();
+  }
+
+  private async getTestStaionIdByPNumber(testStationPNumber: string): Promise<string> {
+
+    const params = {
+      TableName: this.tableName,
+      IndexName: "testStationPNumberIndex",
+      KeyConditionExpression: "#testStationPNumber = :testStationPNumber",
+      ExpressionAttributeNames: {
+        "#testStationPNumber": "testStationPNumber",
+      },
+      ExpressionAttributeValues: {
+        ":testStationPNumber": testStationPNumber,
+      }
+    }
+    let testStation = await TestStationDAO.dbClient.query(params).promise();
+
+    if(!testStation || !testStation.Items || testStation.Count == 0) {
+      console.log("record not found for P Number: " + testStationPNumber)
+      return '';
+    }
+
+    return testStation.Items[0]["testStationId"];
   }
 
   /**
