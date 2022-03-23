@@ -42,7 +42,7 @@ describe("getTestStation", () => {
       expect(originalRes.status).toEqual(200);
       expect(originalRes.body).toStrictEqual(originalResponse);
 
-      testStation.testStationEmails.push("teststationname3@dvsa.gov.uk")
+      testStation.testStationEmails.push("teststationname3@dvsa.gov.uk");
       testStation.testStationId = "12345";
       const testStationUpdateEvent = {
         version: "0",

@@ -81,9 +81,11 @@ export class TestStationDAO {
   public async putItem(
     testStationItem: ITestStation
   ): Promise<PromiseResult<DocumentClient.PutItemOutput, AWS.AWSError>> {
-    const pNumber = testStationItem.testStationPNumber
+    const pNumber = testStationItem.testStationPNumber;
     const testStationId: string = await this.getTestStaionIdByPNumber(pNumber);
-    testStationItem.testStationId = testStationId ? testStationId : testStationItem.testStationId;
+    testStationItem.testStationId = testStationId
+      ? testStationId
+      : testStationItem.testStationId;
     const params = {
       TableName: this.tableName,
       Item: testStationItem,
@@ -91,8 +93,14 @@ export class TestStationDAO {
     return TestStationDAO.dbClient.put(params).promise();
   }
 
-  private async getTestStaionIdByPNumber(testStationPNumber: string): Promise<string> {
-
+  /**
+   * Get test station id by P number.
+   * @param testStationPNumber: string
+   * @returns Promise<string>, test station id
+   */
+  private async getTestStaionIdByPNumber(
+    testStationPNumber: string
+  ): Promise<string> {
     const params = {
       TableName: this.tableName,
       IndexName: "testStationPNumberIndex",
@@ -102,15 +110,16 @@ export class TestStationDAO {
       },
       ExpressionAttributeValues: {
         ":testStationPNumber": testStationPNumber,
-      }
-    }
-    let testStation = await TestStationDAO.dbClient.query(params).promise();
+      },
+    };
+    const testStation = await TestStationDAO.dbClient.query(params).promise();
 
-    if(!testStation || !testStation.Items || testStation.Count == 0) {
-      console.log("record not found for P Number: " + testStationPNumber)
-      return '';
+    if (!testStation || !testStation.Items || testStation.Count === 0) {
+      console.log("record not found for P Number: " + testStationPNumber);
+      return "";
     }
 
+    /* tslint:disable:no-string-literal */
     return testStation.Items[0]["testStationId"];
   }
 
