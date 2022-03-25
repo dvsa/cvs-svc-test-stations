@@ -117,7 +117,7 @@ BRANCH = local
 ```
 https://api.gateway.uri/develop/test-stations/P12345
 ```
-*PUT* operations are via direct lambda invocation with an EventBridgeEvent object.
+*UPSERT* operations are via direct lambda invocation with an EventBridgeEvent object.
 ```
 {
   "version":"0",
@@ -140,12 +140,15 @@ https://api.gateway.uri/develop/test-stations/P12345
     "testStationName": "Test ATF",
     "testStationPNumber": "P12345",
     "testStationPostcode": "NE12 3AB",
-    "testStationStatus": "Active",
+    "testStationStatus": "active",
     "testStationTown": "Testtown",
-    "testStationType": "ATF"
+    "testStationType": "atf"
   }
 }
 ```
+
+Upsert operations can be achieved locally via a POST to http://localhost:3004/{apiVersion}/functions/cvs-svc-test-station-dev-getTestStations/invocations.  
+The test station will either be updated or inserted based on the presense or absence of a test station with the same testStationId.
 
 ## Testing
 
