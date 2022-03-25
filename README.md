@@ -114,9 +114,13 @@ BRANCH = local
 ```
 
 *GET* operations are exposed to the VTA App via API Gateway.
-```
+
+**In AWS:**  
 https://api.gateway.uri/develop/test-stations/P12345
-```
+
+**Locally:**  
+http://localhost:3004/test-stations/P12345
+
 *UPSERT* operations are via direct lambda invocation with an EventBridgeEvent object.
 ```
 {
@@ -147,8 +151,13 @@ https://api.gateway.uri/develop/test-stations/P12345
 }
 ```
 
-Upsert operations can be achieved locally via a POST to http://localhost:3004/{apiVersion}/functions/cvs-svc-test-station-dev-getTestStations/invocations.  
-The test station will either be updated or inserted based on the presense or absence of a test station with the same testStationId.
+**In AWS:**  
+Either via direct lambda invocation via the AWS CLI or the Lambda Test Event feature in the AWS Console.
+
+**Locally:**  
+Upsert operations can be achieved locally via a POST to http://localhost:3004/{apiVersion}/functions/cvs-svc-test-station-dev-getTestStations/invocations.
+
+The test station will either be inserted or updated based on the absence or presense of a test station with the same testStationId.
 
 ## Testing
 
