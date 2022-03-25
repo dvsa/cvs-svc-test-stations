@@ -157,7 +157,7 @@ Either via direct lambda invocation via the AWS CLI or the Lambda Test Event fea
 **Locally:**  
 Upsert operations can be achieved locally via a POST to http://localhost:3004/{apiVersion}/functions/cvs-svc-test-station-dev-getTestStations/invocations.
 
-The test station will either be inserted or updated based on the absence or presense of a test station with the same testStationId.
+The test station will either be inserted or updated based on the absence or presense of a test station with the same testStationPNumber.
 
 ## Testing
 
