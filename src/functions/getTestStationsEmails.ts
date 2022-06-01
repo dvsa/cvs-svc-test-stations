@@ -3,19 +3,22 @@ import { TestStationDAO } from "../models/TestStationDAO";
 import { HTTPResponse } from "../models/HTTPResponse";
 import { Handler } from "aws-lambda";
 import { HTTPError } from "../models/HTTPError";
+import { Validator } from "../utils/Validator";
 
-export const getTestStationsEmails: Handler = (event) => {
+export const getTestStationsEmails: Handler = async (event) => {
   const testStationDAO = new TestStationDAO();
   const service = new TestStationService(testStationDAO);
+  const check: Validator = new Validator();
+
+  if (
+    !check.parameterIsValid(event.pathParameters) ||
+    !check.parameterIsValid(event.pathParameters.testStationPNumber)
+  ) {
+    return new HTTPError(400, "Request missing Station P Number");
+  }
   const testStationPNumber = event.pathParameters
     ? event.pathParameters.testStationPNumber
     : undefined;
-
-  if (!event.pathParameters || !event.pathParameters.testStationPNumber) {
-    return Promise.reject(
-      new HTTPError(400, "Request missing Station P Number")
-    );
-  }
 
   return service
     .getTestStationEmails(testStationPNumber)
@@ -23,7 +26,6 @@ export const getTestStationsEmails: Handler = (event) => {
       return new HTTPResponse(200, data);
     })
     .catch((error: any) => {
-      console.error(error);
       throw new HTTPError(error.statusCode, error.body);
     });
 };

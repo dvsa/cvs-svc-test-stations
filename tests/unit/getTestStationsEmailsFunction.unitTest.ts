@@ -54,6 +54,27 @@ describe("getTestStationsEmails Handler", () => {
     });
   });
 
+  context("with invalid event", () => {
+    it("returns an error when station P number is missing", async () => {
+      const errorMessage = "Request missing Station P Number";
+      TestStationService.prototype.getTestStationEmails = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.reject(new HTTPError(400, errorMessage));
+        });
+      const event = { pathParameters: { testStationPNumber: undefined } };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+        expect(e.body).toEqual("Request missing Station P Number");
+      }
+    });
+  });
+
   context("Service throws error", () => {
     it("should throw that error upwards", async () => {
       const errorMessage = "Bad thing happened";

@@ -22,7 +22,7 @@ describe("getTestStationsEmail", () => {
   });
 
   it("should return an error when sending no parameters", () => {
-    return LambdaTester(getTestStationsEmails).expectReject((error: Error) => {
+    return LambdaTester(getTestStationsEmails).expectResolve((error: Error) => {
       expect(error).toBeTruthy();
       expect(error).toBeInstanceOf(HTTPError);
       expect((error as HTTPError).statusCode).toEqual(400);
@@ -50,6 +50,19 @@ describe("getTestStationsEmail", () => {
         expect(error).toBeTruthy();
         expect(error).toBeInstanceOf(HTTPError);
         expect((error as HTTPError).statusCode).toEqual(404);
+      });
+  });
+  it("should throw and error when requesting non-existent record", () => {
+    return LambdaTester(getTestStationsEmails)
+      .event({
+        pathParameters: {
+          testStationPNumber: undefined,
+        },
+      })
+      .expectResolve((error: Error) => {
+        expect(error).toBeTruthy();
+        expect(error).toBeInstanceOf(HTTPError);
+        expect((error as HTTPError).statusCode).toEqual(400);
       });
   });
 });
