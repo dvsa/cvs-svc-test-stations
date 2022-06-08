@@ -41,7 +41,7 @@
   {
     "testStationId": "3",
     "testStationPNumber": "45-6245686",
-    "testStationStatus": "termination requested",
+    "testStationStatus": "active",
     "testStationName": "Weber, Schulist and Schmitt",
     "testStationContactNumber": "+62 644 827 5861",
     "testStationAccessNotes": "Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\n\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.",
