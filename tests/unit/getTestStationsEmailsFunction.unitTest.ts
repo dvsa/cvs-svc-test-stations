@@ -55,7 +55,7 @@ describe("getTestStationsEmails Handler", () => {
   });
 
   context("with invalid event", () => {
-    it("returns an error when station P number is missing", async () => {
+    it("returns an error when station P number is undefined", async () => {
       const errorMessage = "Request missing Station P Number";
       TestStationService.prototype.getTestStationEmails = jest
         .fn()
@@ -63,6 +63,25 @@ describe("getTestStationsEmails Handler", () => {
           return Promise.reject(new HTTPError(400, errorMessage));
         });
       const event = { pathParameters: { testStationPNumber: undefined } };
+      try {
+        await getTestStationsEmails(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect(e.statusCode).toEqual(400);
+        expect(e.body).toEqual("Request missing Station P Number");
+      }
+    });
+
+    it("returns an error when station P number is null", async () => {
+      const errorMessage = "Request missing Station P Number";
+      TestStationService.prototype.getTestStationEmails = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.reject(new HTTPError(400, errorMessage));
+        });
+      const event = { pathParameters: { testStationPNumber: null } };
       try {
         await getTestStationsEmails(event, ctx, () => {
           return;
