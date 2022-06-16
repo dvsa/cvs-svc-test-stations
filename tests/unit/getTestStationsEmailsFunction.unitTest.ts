@@ -4,6 +4,7 @@ import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
 import mockContext from "aws-lambda-mock-context";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
+import {HTTPRESPONSE} from "../../src/utils/Enum";
 const ctx = mockContext();
 
 jest.mock("../../src/services/TestStationService");
@@ -48,6 +49,7 @@ describe("getTestStationsEmails Handler", () => {
           return;
         });
       } catch (e) {
+        console.log(JSON.stringify(e));
         expect(e).toBeInstanceOf(HTTPError);
         expect(e.statusCode).toEqual(400);
       }
@@ -70,7 +72,7 @@ describe("getTestStationsEmails Handler", () => {
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
         expect(e.statusCode).toEqual(400);
-        expect(e.body).toEqual("Request missing Station P Number");
+        expect(e.body).toEqual(HTTPRESPONSE.MISSING_PARAMETERS);
       }
     });
 
@@ -89,7 +91,7 @@ describe("getTestStationsEmails Handler", () => {
       } catch (e) {
         expect(e).toBeInstanceOf(HTTPError);
         expect(e.statusCode).toEqual(400);
-        expect(e.body).toEqual("Request missing Station P Number");
+        expect(e.body).toEqual(HTTPRESPONSE.MISSING_PARAMETERS);
       }
     });
   });

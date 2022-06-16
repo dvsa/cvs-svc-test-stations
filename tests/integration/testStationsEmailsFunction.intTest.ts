@@ -52,7 +52,7 @@ describe("getTestStationsEmail", () => {
         expect((error as HTTPError).statusCode).toEqual(404);
       });
   });
-  it("should throw and error when requesting non-existent record", () => {
+  it("should trigger validation when testStationPNumber is undefined", () => {
     return LambdaTester(getTestStationsEmails)
       .event({
         pathParameters: {
@@ -64,5 +64,31 @@ describe("getTestStationsEmail", () => {
         expect(error).toBeInstanceOf(HTTPError);
         expect((error as HTTPError).statusCode).toEqual(400);
       });
+  });
+  it("should trigger validation when testStationPNumber is null", () => {
+    return LambdaTester(getTestStationsEmails)
+        .event({
+          pathParameters: {
+            testStationPNumber: null,
+          },
+        })
+        .expectResolve((error: Error) => {
+          expect(error).toBeTruthy();
+          expect(error).toBeInstanceOf(HTTPError);
+          expect((error as HTTPError).statusCode).toEqual(400);
+        });
+  });
+  it("should trigger validation when testStationPNumber is an empty string", () => {
+    return LambdaTester(getTestStationsEmails)
+        .event({
+          pathParameters: {
+            testStationPNumber: ' ',
+          },
+        })
+        .expectResolve((error: Error) => {
+          expect(error).toBeTruthy();
+          expect(error).toBeInstanceOf(HTTPError);
+          expect((error as HTTPError).statusCode).toEqual(400);
+        });
   });
 });

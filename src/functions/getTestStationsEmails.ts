@@ -4,18 +4,21 @@ import { HTTPResponse } from "../models/HTTPResponse";
 import { Handler } from "aws-lambda";
 import { HTTPError } from "../models/HTTPError";
 import { Validator } from "../utils/Validator";
+import {HTTPRESPONSE} from "../utils/Enum";
 
-export const getTestStationsEmails: Handler = async (event) => {
+export const getTestStationsEmails: Handler = (event) => {
   const testStationDAO = new TestStationDAO();
   const service = new TestStationService(testStationDAO);
   const check: Validator = new Validator();
 
-  if (
-    !check.parameterIsValid(event.pathParameters) ||
-    !check.parameterIsValid(event.pathParameters.testStationPNumber)
-  ) {
-    return new HTTPError(400, "Request missing Station P Number");
+  if (event.pathParameters) {
+    if (!check.parametersAreValid(event.pathParameters)) {
+      return Promise.reject(new HTTPError(400, HTTPRESPONSE.MISSING_PARAMETERS));
+    }
+  } else {
+    return Promise.reject(new HTTPError(400, HTTPRESPONSE.MISSING_PARAMETERS));
   }
+
   const testStationPNumber = event.pathParameters
     ? event.pathParameters.testStationPNumber
     : undefined;
