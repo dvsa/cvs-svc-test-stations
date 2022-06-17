@@ -22,7 +22,7 @@ describe("getTestStationsEmail", () => {
   });
 
   it("should return an error when sending no parameters", () => {
-    return LambdaTester(getTestStationsEmails).expectResolve((error: Error) => {
+    return LambdaTester(getTestStationsEmails).expectReject((error: Error) => {
       expect(error).toBeTruthy();
       expect(error).toBeInstanceOf(HTTPError);
       expect((error as HTTPError).statusCode).toEqual(400);
@@ -59,7 +59,7 @@ describe("getTestStationsEmail", () => {
           testStationPNumber: undefined,
         },
       })
-      .expectResolve((error: Error) => {
+      .expectReject((error: Error) => {
         expect(error).toBeTruthy();
         expect(error).toBeInstanceOf(HTTPError);
         expect((error as HTTPError).statusCode).toEqual(400);
@@ -72,7 +72,7 @@ describe("getTestStationsEmail", () => {
             testStationPNumber: null,
           },
         })
-        .expectResolve((error: Error) => {
+        .expectReject((error: Error) => {
           expect(error).toBeTruthy();
           expect(error).toBeInstanceOf(HTTPError);
           expect((error as HTTPError).statusCode).toEqual(400);
@@ -85,7 +85,7 @@ describe("getTestStationsEmail", () => {
             testStationPNumber: ' ',
           },
         })
-        .expectResolve((error: Error) => {
+        .expectReject((error: Error) => {
           expect(error).toBeTruthy();
           expect(error).toBeInstanceOf(HTTPError);
           expect((error as HTTPError).statusCode).toEqual(400);
