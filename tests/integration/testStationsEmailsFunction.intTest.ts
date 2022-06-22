@@ -3,6 +3,7 @@ import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails
 import { ITestStation } from "../../src/models/ITestStation";
 import { HTTPError } from "../../src/models/HTTPError";
 import { emptyDatabase, populateDatabase } from "../util/dbOperations";
+import { HTTPResponse } from "../../src/models/HTTPResponse";
 
 describe("getTestStationsEmail", () => {
   beforeAll(async () => {
@@ -22,9 +23,9 @@ describe("getTestStationsEmail", () => {
   });
 
   it("should return an error when sending no parameters", () => {
-    return LambdaTester(getTestStationsEmails).expectReject((error: Error) => {
+    return LambdaTester(getTestStationsEmails).expectResolve((error: Error) => {
       expect(error).toBeTruthy();
-      expect(error).toBeInstanceOf(HTTPError);
+      expect(error).toBeInstanceOf(HTTPResponse);
       expect((error as HTTPError).statusCode).toEqual(400);
     });
   });
@@ -59,36 +60,36 @@ describe("getTestStationsEmail", () => {
           testStationPNumber: undefined,
         },
       })
-      .expectReject((error: Error) => {
+      .expectResolve((error: Error) => {
         expect(error).toBeTruthy();
-        expect(error).toBeInstanceOf(HTTPError);
+        expect(error).toBeInstanceOf(HTTPResponse);
         expect((error as HTTPError).statusCode).toEqual(400);
       });
   });
   it("should trigger validation when testStationPNumber is null", () => {
     return LambdaTester(getTestStationsEmails)
-        .event({
-          pathParameters: {
-            testStationPNumber: null,
-          },
-        })
-        .expectReject((error: Error) => {
-          expect(error).toBeTruthy();
-          expect(error).toBeInstanceOf(HTTPError);
-          expect((error as HTTPError).statusCode).toEqual(400);
-        });
+      .event({
+        pathParameters: {
+          testStationPNumber: null,
+        },
+      })
+      .expectResolve((error: Error) => {
+        expect(error).toBeTruthy();
+        expect(error).toBeInstanceOf(HTTPResponse);
+        expect((error as HTTPError).statusCode).toEqual(400);
+      });
   });
   it("should trigger validation when testStationPNumber is an empty string", () => {
     return LambdaTester(getTestStationsEmails)
-        .event({
-          pathParameters: {
-            testStationPNumber: ' ',
-          },
-        })
-        .expectReject((error: Error) => {
-          expect(error).toBeTruthy();
-          expect(error).toBeInstanceOf(HTTPError);
-          expect((error as HTTPError).statusCode).toEqual(400);
-        });
+      .event({
+        pathParameters: {
+          testStationPNumber: " ",
+        },
+      })
+      .expectResolve((error: Error) => {
+        expect(error).toBeTruthy();
+        expect(error).toBeInstanceOf(HTTPResponse);
+        expect((error as HTTPError).statusCode).toEqual(400);
+      });
   });
 });

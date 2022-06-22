@@ -4,7 +4,7 @@ import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
 import mockContext from "aws-lambda-mock-context";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
-import {HTTPRESPONSE} from "../../src/utils/Enum";
+
 const ctx = mockContext();
 
 jest.mock("../../src/services/TestStationService");
@@ -49,49 +49,8 @@ describe("getTestStationsEmails Handler", () => {
           return;
         });
       } catch (e) {
-        console.log(JSON.stringify(e));
         expect(e).toBeInstanceOf(HTTPError);
         expect(e.statusCode).toEqual(400);
-      }
-    });
-  });
-
-  context("with invalid event", () => {
-    it("returns an error when station P number is undefined", async () => {
-      const errorMessage = "Request missing Station P Number";
-      TestStationService.prototype.getTestStationEmails = jest
-        .fn()
-        .mockImplementation(() => {
-          return Promise.reject(new HTTPError(400, errorMessage));
-        });
-      const event = { pathParameters: { testStationPNumber: undefined } };
-      try {
-        await getTestStationsEmails(event, ctx, () => {
-          return;
-        });
-      } catch (e) {
-        expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
-        expect(e.body).toEqual(HTTPRESPONSE.MISSING_PARAMETERS);
-      }
-    });
-
-    it("returns an error when station P number is null", async () => {
-      const errorMessage = "Request missing Station P Number";
-      TestStationService.prototype.getTestStationEmails = jest
-        .fn()
-        .mockImplementation(() => {
-          return Promise.reject(new HTTPError(400, errorMessage));
-        });
-      const event = { pathParameters: { testStationPNumber: null } };
-      try {
-        await getTestStationsEmails(event, ctx, () => {
-          return;
-        });
-      } catch (e) {
-        expect(e).toBeInstanceOf(HTTPError);
-        expect(e.statusCode).toEqual(400);
-        expect(e.body).toEqual(HTTPRESPONSE.MISSING_PARAMETERS);
       }
     });
   });

@@ -1,10 +1,10 @@
 import { TestStationService } from "../services/TestStationService";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { HTTPResponse } from "../models/HTTPResponse";
-import { Handler } from "aws-lambda";
 import { HTTPError } from "../models/HTTPError";
 import { Validator } from "../utils/Validator";
-import {HTTPRESPONSE} from "../utils/Enum";
+import { HTTPRESPONSE } from "../utils/Enum";
+import { Handler } from "aws-lambda";
 
 export const getTestStationsEmails: Handler = (event) => {
   const testStationDAO = new TestStationDAO();
@@ -13,10 +13,14 @@ export const getTestStationsEmails: Handler = (event) => {
 
   if (event.pathParameters) {
     if (!check.parametersAreValid(event.pathParameters)) {
-      return Promise.reject(new HTTPError(400, HTTPRESPONSE.MISSING_PARAMETERS));
+      return Promise.resolve(
+        new HTTPResponse(400, HTTPRESPONSE.MISSING_PARAMETERS)
+      );
     }
   } else {
-    return Promise.reject(new HTTPError(400, HTTPRESPONSE.MISSING_PARAMETERS));
+    return Promise.resolve(
+      new HTTPResponse(400, HTTPRESPONSE.MISSING_PARAMETERS)
+    );
   }
 
   const testStationPNumber = event.pathParameters
