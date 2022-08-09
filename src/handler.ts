@@ -5,7 +5,6 @@ import { HTTPResponse } from "./models/HTTPResponse";
 import { APIGatewayEvent, EventBridgeEvent, Context } from "aws-lambda";
 import { IFunctionConfig } from "./models";
 import { putTestStation } from "./functions/putTestStation";
-import { ILogMessage } from "./models/ILogMessage";
 
 const handler = async (
   event: EventBridgeEvent<any, any> | APIGatewayEvent,
@@ -74,13 +73,9 @@ function handleApiGateway(event: APIGatewayEvent, context: Context) {
 
     Object.assign(event, { pathParameters: lambdaPathParams });
 
-    const logMessage: ILogMessage = {
-      HTTP: `${event.httpMethod} ${event.path} -> λ ${lambdaEvent.name}`,
-      PATH_PARAMS: `${JSON.stringify(event.pathParameters)}`,
-      QUERY_PARAMS: `${JSON.stringify(event.queryStringParameters)}`,
-    };
-
-    console.log(logMessage);
+    console.log(
+      `HTTP ${event.httpMethod} ${event.path} -> λ ${lambdaEvent.name}`
+    );
 
     // Explicit conversion because typescript can't figure it out
     return lambdaFn(event, context, () => {
