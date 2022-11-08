@@ -11,6 +11,8 @@ The project runs on node >10.x with typescript and serverless framework. For fur
 
 ### Prerequisites
 
+
+
 Please install and run the following securiy programs as part of your development process:
 
 - [git-secrets](https://github.com/awslabs/git-secrets)
@@ -35,6 +37,7 @@ More information about technical designs can be found under the [Test Stations M
 
 ## Getting started
 
+New change
 Set up your nodejs environment running `nvm use` and once the dependencies are installed using `npm i`, you can run the scripts from `package.json` to build your project.
 This code repository uses [serverless framework](https://www.serverless.com/framework/docs/) to mock AWS capabilities for local development.
 You will also require to install dynamodb serverless to run your project with by running the following command `npm run tools-setup` in your preferred shell.
