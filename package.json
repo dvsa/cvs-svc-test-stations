@@ -39,7 +39,7 @@
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.1.0",
+    "@commitlint/cli": "17.6.1",
     "@commitlint/config-conventional": "12.1.4",
     "@types/jest": "27.4.0",
     "@types/jest-plugin-context": "2.9.4",
