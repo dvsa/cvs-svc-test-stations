@@ -325,7 +325,8 @@
     "testStationLatitude": 14.6489525,
     "testStationType": "atf",
     "testStationEmails": ["Cvs.Test2@dvsagov.onmicrosoft.com"]
-  }, {
+  },
+  {
     "testStationId": "21",
     "testStationPNumber": "14-7160003",
     "testStationStatus": "active",
