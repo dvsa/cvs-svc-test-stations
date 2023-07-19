@@ -370,7 +370,8 @@
     "testStationContactNumber": "1234567890",
     "testStationEmails": [
       "bob.smith@newatf1.co.uk",
-      "freda.bloggs@newatf1.co.uk"],
+      "freda.bloggs@newatf1.co.uk"
+    ],
     "testStationGeneralNotes": "",
     "testStationAccessNotes": "",
     "testStationLatitude": 180,
@@ -389,7 +390,8 @@
     "testStationContactNumber": "9876543210",
     "testStationEmails": [
       "joe.davies@newatf2.co.uk",
-      "hilda.rees@newatf2.co.uk"],
+      "hilda.rees@newatf2.co.uk"
+    ],
     "testStationGeneralNotes": "",
     "testStationAccessNotes": "",
     "testStationLatitude": 181,
