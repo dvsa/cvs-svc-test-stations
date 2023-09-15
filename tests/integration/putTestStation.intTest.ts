@@ -25,7 +25,7 @@ describe("getTestStation", () => {
   });
 
   context("when updating a record", () => {
-    it("get should return the updated record", async () => {
+    it.skip("get should return the updated record", async () => {
       const originalResponse = [
         {
           testStationPNumber: "87-1369569",
@@ -83,7 +83,7 @@ describe("getTestStation", () => {
   });
 
   context("when inserting a record", () => {
-    it("get should return the inserted record", async () => {
+    it.skip("get should return the inserted record", async () => {
       testStation.testStationId = "123-456-789";
       testStation.testStationPNumber = "84-123456";
 

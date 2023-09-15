@@ -2,7 +2,7 @@ service: cvs-svc-test-station
 useDotenv: true
 configValidationMode: warn
 plugins:
-  - serverless-dynamodb-local
+  - serverless-dynamodb
   - serverless-plugin-typescript
   - serverless-plugin-tracing
   - serverless-offline
@@ -46,7 +46,7 @@ custom:
     basePath: "./"
   serverless-offline:
     httpPort: 3004
-  dynamodb:
+  serverless-dynamodb:
     stages:
       - dev
       - test

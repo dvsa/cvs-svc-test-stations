@@ -25,20 +25,18 @@
     "tools-setup": "sls dynamodb install && husky install",
     "commit-msg": "commitlint --edit $1",
     "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
-    "predeploy": "npm install && npm run prepush",
-    "postinstall": "patch-package"
+    "predeploy": "npm install && npm run prepush"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.1457.0",
     "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1457.0",
     "aws-xray-sdk": "3.0.1",
     "joi": "17.6.0",
     "node-yaml": "4.0.1",
     "path-parser": "4.2.0",
-    "reflect-metadata": "0.1.13",
-    "patch-package": "^6.5.1"
+    "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "16.1.0",
@@ -60,7 +58,7 @@
     "lambda-tester": "4.0.1",
     "prettier": "2.3.2",
     "serverless": "3.34.0",
-    "serverless-dynamodb-local": "0.2.40",
+    "serverless-dynamodb": "^0.2.43",
     "serverless-offline": "^12.0.4",
     "serverless-plugin-tracing": "2.0.0",
     "serverless-plugin-typescript": "2.1.5",
