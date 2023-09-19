@@ -38,7 +38,7 @@ const injection = async (detail: ITestStation) => {
     console.error(error);
     return error;
   }
-}
+};
 
 describe("getTestStation", () => {
   beforeAll(async () => {
@@ -132,7 +132,7 @@ describe("getTestStation", () => {
           expect(error).toBeInstanceOf(HTTPError);
           expect((error as HTTPError).statusCode).toEqual(404);
         });
-      
+
       await injection(testStation);
 
       const expectedResponse = [

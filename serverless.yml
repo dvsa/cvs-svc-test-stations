@@ -77,7 +77,7 @@ custom:
     mockEventBridgeServer: true
     hostname: 127.0.0.1
     debug: true
-    account: '1234567'
+    account: "1234567"
 
 resources:
   Resources:

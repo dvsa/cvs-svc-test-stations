@@ -106,6 +106,6 @@ export const consume = async (event: any, context: any) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export { handler };
