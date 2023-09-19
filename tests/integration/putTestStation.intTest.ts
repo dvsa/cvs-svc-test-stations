@@ -23,7 +23,7 @@ const injection = async (detail: ITestStation) => {
         Entries: [
           {
             Source: "cvs.update.test.stations",
-            Detail: JSON.stringify(detail)
+            Detail: JSON.stringify(detail),
           },
         ],
       })

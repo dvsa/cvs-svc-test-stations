@@ -29,6 +29,8 @@ provider:
 
 functions:
   getTestStations:
+    environment:
+      BRANCH: local
     handler: src/handler.handler
     events:
       - http:
@@ -41,11 +43,6 @@ functions:
             parameters:
               paths:
                 testStationPNumber: true
-  consumeEvent:
-    handler: src/handler.consume
-    environment:
-      BRANCH: local
-    events:
       - eventBridge:
           pattern:
             source:
