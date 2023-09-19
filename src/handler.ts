@@ -100,4 +100,12 @@ function handleApiGateway(event: APIGatewayEvent, context: Context) {
   });
 }
 
+export const consume = async (event: any, context: any) => {
+  try {
+    await handleEventBridge(event);
+  } catch (error) {
+    throw error;
+  }
+}
+
 export { handler };
