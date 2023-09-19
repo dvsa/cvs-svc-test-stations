@@ -15,8 +15,6 @@ const injection = async (detail: ITestStation) => {
   try {
     const eventBridge = new AWS.EventBridge({
       endpoint: "http://127.0.0.1:4010",
-      accessKeyId: "foo",
-      secretAccessKey: "bar",
       region: "eu-west-1",
     });
 
@@ -25,8 +23,7 @@ const injection = async (detail: ITestStation) => {
         Entries: [
           {
             Source: "cvs.update.test.stations",
-            Detail: JSON.stringify(detail),
-            Time: new Date("2000-01-01T00:00:00Z"),
+            Detail: JSON.stringify(detail)
           },
         ],
       })
