@@ -49,8 +49,8 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.CVS_MGMT_AWS_ROLE }}
-            aws-region: ${{ secrets.DVSA_AWS_REGION }}
-            role-session-name: 'cvs-app-vtm'
+          aws-region: ${{ secrets.DVSA_AWS_REGION }}
+          role-session-name: 'cvs-app-vtm'
       - uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
           secret-ids: sonarqube-gha
