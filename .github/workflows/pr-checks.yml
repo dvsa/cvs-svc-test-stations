@@ -50,7 +50,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.CVS_MGMT_AWS_ROLE }}
           aws-region: ${{ secrets.DVSA_AWS_REGION }}
-          role-session-name: 'cvs-app-vtm'
+          role-session-name: 'cvs-svc-test-stations'
       - uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
           secret-ids: sonarqube-gha
