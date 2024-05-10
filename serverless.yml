@@ -34,6 +34,13 @@ functions:
     handler: src/handler.handler
     events:
       - http:
+          path: test-station/{testStationPNumber}
+          method: get
+          request:
+            parameters:
+              paths:
+                testStationPNumber: true
+      - http:
           path: test-stations
           method: get
       - http:

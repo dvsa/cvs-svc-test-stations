@@ -36,6 +36,33 @@ export class TestStationDAO {
   }
 
   /**
+   * Get test station for a given test station ID
+   * @param testStationPNumber
+   */
+  public async getTestStationByPNumber(testStationPNumber: string) {
+    const params = {
+      TableName: this.tableName,
+      KeyConditionExpression: "#testStationPNumber = :testStationPNumber",
+      ExpressionAttributeNames: {
+        "#testStationPNumber": "testStationPNumber",
+      },
+      ExpressionAttributeValues: {
+        ":testStationPNumber": testStationPNumber,
+      },
+    };
+    const command = new QueryCommand(params);
+    const testStation = await TestStationDAO.dbClient.send(command);
+
+    if (!testStation || !testStation.Items || testStation.Count === 0) {
+      console.log("record not found for P Number: " + testStationPNumber);
+      return "";
+    }
+
+    /* tslint:disable:no-string-literal */
+    return testStation.Items[0];
+  }
+
+  /**
    * Get all email addresses for a given test station ID
    * @param testStationPNumber
    */

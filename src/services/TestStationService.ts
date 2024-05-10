@@ -11,6 +11,29 @@ export class TestStationService {
   }
 
   /**
+   * Fetch a list of a test station (ATF) from DynamoDB based on its pNumber
+   */
+  public getTestStation(pNumber: string) {
+    return this.testStationDAO
+      .getTestStationByPNumber(pNumber)
+      .then((data: any) => {
+        if (data.Count === 0) {
+          throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
+        }
+
+        return data.Items;
+      })
+      .catch((error: any) => {
+        if (!(error instanceof HTTPError)) {
+          console.log(error);
+          error.statusCode = 500;
+          error.body = ERRORS.INTERNAL_SERVER_ERROR;
+        }
+        throw new HTTPError(error.statusCode, error.body);
+      });
+  }
+
+  /**
    * Fetch a list of all test stations (ATFs) from DynamoDB
    */
   public getTestStationList() {
