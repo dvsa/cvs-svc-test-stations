@@ -52,7 +52,7 @@ export class TestStationDAO {
     };
 
     const command = new ScanCommand(params);
-    const testStation = await TestStationDAO.dbClient.send(command) as any;
+    const testStation = await TestStationDAO.dbClient.send(command);
 
     if (!testStation || !testStation.Items || testStation.Count === 0) {
       console.log("record not found for P Number: " + testStationPNumber);
