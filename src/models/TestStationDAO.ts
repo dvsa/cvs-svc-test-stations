@@ -42,7 +42,7 @@ export class TestStationDAO {
   public async getTestStationByPNumber(testStationPNumber: string) {
     const params = {
       TableName: this.tableName,
-      KeyConditionExpression: "#testStationPNumber = :testStationPNumber",
+      FilterExpression: "#testStationPNumber = :testStationPNumber",
       ExpressionAttributeNames: {
         "#testStationPNumber": "testStationPNumber",
       },
@@ -50,8 +50,9 @@ export class TestStationDAO {
         ":testStationPNumber": testStationPNumber,
       },
     };
-    const command = new QueryCommand(params);
-    const testStation = await TestStationDAO.dbClient.send(command);
+
+    const command = new ScanCommand(params);
+    const testStation = await TestStationDAO.dbClient.send(command) as any;
 
     if (!testStation || !testStation.Items || testStation.Count === 0) {
       console.log("record not found for P Number: " + testStationPNumber);

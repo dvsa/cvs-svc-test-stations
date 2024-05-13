@@ -21,7 +21,7 @@ export class TestStationService {
           throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
         }
 
-        return data.Items;
+        return data;
       })
       .catch((error: any) => {
         if (!(error instanceof HTTPError)) {

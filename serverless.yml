@@ -34,7 +34,7 @@ functions:
     handler: src/handler.handler
     events:
       - http:
-          path: test-station/{testStationPNumber}
+          path: test-stations/{testStationPNumber}
           method: get
           request:
             parameters:
@@ -44,7 +44,7 @@ functions:
           path: test-stations
           method: get
       - http:
-          path: test-stations/{testStationPNumber}
+          path: test-stations/{testStationPNumber}/email-addresses
           method: get
           request:
             parameters:

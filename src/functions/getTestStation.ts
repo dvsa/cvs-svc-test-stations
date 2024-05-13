@@ -32,6 +32,7 @@ export const getTestStation: Handler = (event) => {
   return service
     .getTestStation(testStationPNumber)
     .then((data: ITestStation) => {
+      console.log(data);
       return new HTTPResponse(200, data);
     })
     .catch((error: any) => {
