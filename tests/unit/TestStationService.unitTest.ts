@@ -220,7 +220,7 @@ describe("TestStationService", () => {
             return {
               getTestStationByPNumber: () => {
                 return Promise.resolve({
-                  ...stations[0]
+                  ...stations[0],
                 });
               },
             };
@@ -230,7 +230,8 @@ describe("TestStationService", () => {
             new TestStationDAOMock()
           );
           try {
-            const returnedRecords: ITestStation = await testStationService.getTestStation("87-1369569");
+            const returnedRecords: ITestStation =
+              await testStationService.getTestStation("87-1369569");
             expect(returnedRecords).not.toBeNull();
             expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
           } catch (e) {
@@ -245,7 +246,7 @@ describe("TestStationService", () => {
             return {
               getTestStationByPNumber: () => {
                 return Promise.resolve({
-                  ...stations[0]
+                  ...stations[0],
                 });
               },
             };

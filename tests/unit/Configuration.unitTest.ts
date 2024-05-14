@@ -112,8 +112,10 @@ describe("ConfigurationUtil", () => {
         expect(funcConfig[1].path).toEqual(
           "/test-stations/:testStationPNumber/email-addresses"
         );
-        expect(funcConfig[2].name).toEqual("getTestStation")
-        expect(funcConfig[2].path).toEqual("/test-stations/:testStationPNumber")
+        expect(funcConfig[2].name).toEqual("getTestStation");
+        expect(funcConfig[2].path).toEqual(
+          "/test-stations/:testStationPNumber"
+        );
       });
     });
   });

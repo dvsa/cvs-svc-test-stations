@@ -26,8 +26,8 @@ export const getTestStation: Handler = (event) => {
   }
 
   const testStationPNumber = event.pathParameters
-  ? event.pathParameters.testStationPNumber
-  : undefined;
+    ? event.pathParameters.testStationPNumber
+    : undefined;
 
   return service
     .getTestStation(testStationPNumber)
