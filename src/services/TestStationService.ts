@@ -1,7 +1,7 @@
 import { HTTPError } from "../models/HTTPError";
 import { TestStationDAO } from "../models/TestStationDAO";
 import { ITestStation } from "../models/ITestStation";
-import { ERRORS, TEST_STATION_STATUS } from "../utils/Enum";
+import { ERRORS } from "../utils/Enum";
 
 export class TestStationService {
   public readonly testStationDAO: TestStationDAO;
