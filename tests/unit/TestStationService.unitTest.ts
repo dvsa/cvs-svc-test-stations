@@ -241,7 +241,7 @@ describe("TestStationService", () => {
       });
 
       context("database call returns no data", () => {
-        it("should throw error", () => {
+        it("should throw error", async () => {
           const TestStationDAOMock = jest.fn().mockImplementation(() => {
             return {
               getTestStationByPNumber: () => {
@@ -255,23 +255,21 @@ describe("TestStationService", () => {
           const testStationService = new TestStationService(
             new TestStationDAOMock()
           );
-          return testStationService
-            .getTestStation("")
-            .then(() => {
-              return;
-            })
-            .catch((errorResponse: HTTPError) => {
-              expect(errorResponse).toBeInstanceOf(HTTPError);
-              expect(errorResponse.statusCode).toEqual(404);
-              expect(errorResponse.body).toEqual(
-                "No resources match the search criteria."
-              );
-            });
+
+          try {
+            await testStationService.getTestStation("");
+          } catch (errorResponse: any) {
+            expect(errorResponse).toBeInstanceOf(HTTPError);
+            expect(errorResponse.statusCode).toEqual(404);
+            expect(errorResponse.body).toEqual(
+              "No resources match the search criteria."
+            );
+          }
         });
       });
 
       context("Database throws a predicted error (HTTPError)", () => {
-        it("should return the error as is", () => {
+        it("should return the error as is", async () => {
           const TestStationDAOMock = jest.fn().mockImplementation(() => {
             return {
               getTestStationByPNumber: () => {
@@ -283,16 +281,14 @@ describe("TestStationService", () => {
           const testStationService = new TestStationService(
             new TestStationDAOMock()
           );
-          return testStationService
-            .getTestStation("")
-            .then(() => {
-              return;
-            })
-            .catch((errorResponse: HTTPError) => {
-              expect(errorResponse).toBeInstanceOf(HTTPError);
-              expect(errorResponse.statusCode).toEqual(418);
-              expect(errorResponse.body).toEqual("It broke");
-            });
+
+          try {
+            await testStationService.getTestStation("");
+          } catch (errorResponse: any) {
+            expect(errorResponse).toBeInstanceOf(HTTPError);
+            expect(errorResponse.statusCode).toEqual(418);
+            expect(errorResponse.body).toEqual("It broke");
+          }
         });
       });
     });
