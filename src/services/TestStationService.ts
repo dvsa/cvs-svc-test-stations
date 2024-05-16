@@ -15,15 +15,16 @@ export class TestStationService {
    */
   public async getTestStation(pNumber: string) {
     try {
-      const testStation = await this.testStationDAO.getTestStationByPNumber(pNumber);
-      
-      if(!testStation) {
+      const testStation = await this.testStationDAO.getTestStationByPNumber(
+        pNumber
+      );
+
+      if (!testStation) {
         throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
       }
 
       return testStation;
-    }
-    catch(error: any) {
+    } catch (error: any) {
       if (!(error instanceof HTTPError)) {
         console.log(error);
         error.statusCode = 500;

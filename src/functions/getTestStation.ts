@@ -14,7 +14,7 @@ export const getTestStation: Handler = async (event) => {
 
   if (event.pathParameters) {
     if (!check.parametersAreValid(event.pathParameters)) {
-    return new HTTPResponse(400, HTTPRESPONSE.MISSING_PARAMETERS);
+      return new HTTPResponse(400, HTTPRESPONSE.MISSING_PARAMETERS);
     }
   } else {
     return new HTTPResponse(400, HTTPRESPONSE.MISSING_PARAMETERS);
@@ -27,8 +27,7 @@ export const getTestStation: Handler = async (event) => {
   try {
     const testStation = await service.getTestStation(testStationPNumber);
     return new HTTPResponse(200, testStation);
-  }
-  catch(error: any) {
+  } catch (error: any) {
     console.error(error);
     return new HTTPError(error.statusCode, error.body);
   }
