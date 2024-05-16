@@ -4,7 +4,7 @@ import { HTTPResponse } from "../models/HTTPResponse";
 import { HTTPError } from "../models/HTTPError";
 import { Validator } from "../utils/Validator";
 import { Handler } from "aws-lambda";
-import { HTTPRESPONSE } from "../utils/Enum";
+import { ERRORS, HTTPRESPONSE } from "../utils/Enum";
 
 export const getTestStation: Handler = async (event) => {
   const testStationDAO = new TestStationDAO();
@@ -29,6 +29,10 @@ export const getTestStation: Handler = async (event) => {
     return new HTTPResponse(200, testStation);
   } catch (error: any) {
     console.error(error);
+    if (!(error instanceof HTTPError)) {
+      error.statusCode = 500;
+      error.body = ERRORS.INTERNAL_SERVER_ERROR;
+    }
     return new HTTPError(error.statusCode, error.body);
   }
 };

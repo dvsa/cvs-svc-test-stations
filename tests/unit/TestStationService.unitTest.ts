@@ -229,7 +229,9 @@ describe("TestStationService", () => {
           );
           try {
             const returnedRecords: ITestStation =
-              await testStationService.getTestStation("87-1369569");
+              (await testStationService.getTestStation(
+                "87-1369569"
+              )) as ITestStation;
             expect(returnedRecords).not.toBeNull();
             expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
           } catch (e) {
@@ -290,32 +292,6 @@ describe("TestStationService", () => {
               expect(errorResponse).toBeInstanceOf(HTTPError);
               expect(errorResponse.statusCode).toEqual(418);
               expect(errorResponse.body).toEqual("It broke");
-            });
-        });
-      });
-
-      context("Database throws an unexpected error (not HTTPError)", () => {
-        it("should return a generic 500 error", () => {
-          const TestStationDAOMock = jest.fn().mockImplementation(() => {
-            return {
-              getTestStationByPNumber: () => {
-                return Promise.reject(new Error("Oh no!"));
-              },
-            };
-          });
-
-          const testStationService = new TestStationService(
-            new TestStationDAOMock()
-          );
-          return testStationService
-            .getTestStation("")
-            .then(() => {
-              return;
-            })
-            .catch((errorResponse: HTTPError) => {
-              expect(errorResponse).toBeInstanceOf(HTTPError);
-              expect(errorResponse.statusCode).toEqual(500);
-              expect(errorResponse.body).toEqual(ERRORS.INTERNAL_SERVER_ERROR);
             });
         });
       });

@@ -14,24 +14,15 @@ export class TestStationService {
    * Fetch a test station (ATF) from DynamoDB based on its pNumber
    */
   public async getTestStation(pNumber: string) {
-    try {
-      const testStation = await this.testStationDAO.getTestStationByPNumber(
-        pNumber
-      );
+    const testStation = await this.testStationDAO.getTestStationByPNumber(
+      pNumber
+    );
 
-      if (!testStation) {
-        throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
-      }
-
-      return testStation;
-    } catch (error: any) {
-      if (!(error instanceof HTTPError)) {
-        console.log(error);
-        error.statusCode = 500;
-        error.body = ERRORS.INTERNAL_SERVER_ERROR;
-      }
-      throw new HTTPError(error.statusCode, error.body);
+    if (!testStation) {
+      throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
     }
+
+    return testStation;
   }
 
   /**

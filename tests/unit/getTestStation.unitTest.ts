@@ -4,6 +4,7 @@ import stations from "../resources/test-stations.json";
 import mockContext, { Context } from "aws-lambda";
 import { HTTPResponse } from "../../src/models/HTTPResponse";
 import { getTestStation } from "../../src/functions/getTestStation";
+import { ERRORS } from "../../src/utils/Enum";
 const ctx = mockContext as Context;
 
 jest.mock("../../src/services/TestStationService");
@@ -95,7 +96,7 @@ describe("getTestStation Handler", () => {
   });
 
   context("Service throws error", () => {
-    it("should throw that error upwards", async () => {
+    it("should throw that HTTP error upwards", async () => {
       const errorMessage = "Bad thing happened";
       TestStationService.prototype.getTestStation = jest
         .fn()
@@ -111,6 +112,25 @@ describe("getTestStation Handler", () => {
         expect(e).toBeInstanceOf(HTTPError);
         expect((e as HTTPError).statusCode).toEqual(418);
         expect((e as HTTPError).body).toEqual(errorMessage);
+      }
+    });
+
+    it("should throw that error upwards", async () => {
+      const errorMessage = "Bad thing happened";
+      TestStationService.prototype.getTestStation = jest
+        .fn()
+        .mockImplementation(() => {
+          return Promise.reject(new Error(errorMessage));
+        });
+      const event = { pathParameters: { testStationPNumber: "12-345678" } };
+      try {
+        await getTestStation(event, ctx, () => {
+          return;
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(HTTPError);
+        expect((e as HTTPError).statusCode).toEqual(500);
+        expect((e as HTTPError).body).toEqual(ERRORS.INTERNAL_SERVER_ERROR);
       }
     });
   });
