@@ -1,5 +1,4 @@
 import { TestStationService } from "../../src/services/TestStationService";
-import { getTestStationsEmails } from "../../src/functions/getTestStationsEmails";
 import { HTTPError } from "../../src/models/HTTPError";
 import stations from "../resources/test-stations.json";
 import mockContext, { Context } from "aws-lambda";
@@ -38,8 +37,7 @@ describe("getTestStation Handler", () => {
 
   context("with invalid event", () => {
     it("returns an error without invoking the service", async () => {
-      // TestStationService.prototype.getTestStationEmails = jest.fn().mockImplementation(() => expect.fail());
-      const event = { invalid: true }; // Missing pathParameters
+      const event = { invalid: true };
       try {
         await getTestStation(event, ctx, () => {
           return;

@@ -11,26 +11,26 @@ export class TestStationService {
   }
 
   /**
-   * Fetch a list of a test station (ATF) from DynamoDB based on its pNumber
+   * Fetch a test station (ATF) from DynamoDB based on its pNumber
    */
-  public getTestStation(pNumber: string) {
-    return this.testStationDAO
-      .getTestStationByPNumber(pNumber)
-      .then((data: any) => {
-        if (data.Count === 0) {
-          throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
-        }
+  public async getTestStation(pNumber: string) {
+    try {
+      const testStation = await this.testStationDAO.getTestStationByPNumber(pNumber);
+      
+      if(!testStation) {
+        throw new HTTPError(404, ERRORS.RESOURCE_NOT_FOUND);
+      }
 
-        return data;
-      })
-      .catch((error: any) => {
-        if (!(error instanceof HTTPError)) {
-          console.log(error);
-          error.statusCode = 500;
-          error.body = ERRORS.INTERNAL_SERVER_ERROR;
-        }
-        throw new HTTPError(error.statusCode, error.body);
-      });
+      return testStation;
+    }
+    catch(error: any) {
+      if (!(error instanceof HTTPError)) {
+        console.log(error);
+        error.statusCode = 500;
+        error.body = ERRORS.INTERNAL_SERVER_ERROR;
+      }
+      throw new HTTPError(error.statusCode, error.body);
+    }
   }
 
   /**
@@ -55,7 +55,7 @@ export class TestStationService {
       });
   }
 
-  public getTestStationEmails = (pNumber: string) => {
+  public getTestStationEmails = async (pNumber: string) => {
     return this.testStationDAO
       .getTestStationEmailByPNumber(pNumber)
       .then((data: any) => {

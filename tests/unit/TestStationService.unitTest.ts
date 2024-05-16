@@ -3,8 +3,6 @@ import { TestStationService } from "../../src/services/TestStationService";
 import stations from "../resources/test-stations.json";
 import { ERRORS } from "../../src/utils/Enum";
 import { ITestStation } from "../../src/models/ITestStation";
-import { getTestStation } from "../../src/functions/getTestStation";
-const stationIds = stations.map((station) => station.testStationId);
 
 describe("TestStationService", () => {
   afterEach(() => {
@@ -235,7 +233,7 @@ describe("TestStationService", () => {
             expect(returnedRecords).not.toBeNull();
             expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
           } catch (e) {
-            expect.assertions(1); // should have thrown an error, test failed
+            expect.assertions(1);
           }
         });
       });
