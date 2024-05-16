@@ -23,16 +23,12 @@ describe("getTestStation Handler", () => {
         .mockImplementation(mockFunction);
 
       const event = { pathParameters: { testStationPNumber: testPNumber } };
-      try {
-        const res: HTTPResponse = await getTestStation(event, ctx, () => {
-          return;
-        });
-        expect(res).toBeInstanceOf(HTTPResponse);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(JSON.stringify(station));
-      } catch (e) {
-        expect(e).toBeInstanceOf(HTTPError);
-      }
+      const res: HTTPResponse = await getTestStation(event, ctx, () => {
+        return;
+      });
+      expect(res).toBeInstanceOf(HTTPResponse);
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toEqual(JSON.stringify(station));
     });
   });
 
