@@ -227,16 +227,13 @@ describe("TestStationService", () => {
           const testStationService = new TestStationService(
             new TestStationDAOMock()
           );
-          try {
-            const returnedRecords: ITestStation =
-              (await testStationService.getTestStation(
-                "87-1369569"
-              )) as ITestStation;
-            expect(returnedRecords).not.toBeNull();
-            expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
-          } catch (e) {
-            expect.assertions(1);
-          }
+
+          const returnedRecords: ITestStation =
+            (await testStationService.getTestStation(
+              "87-1369569"
+            )) as ITestStation;
+          expect(returnedRecords).not.toBeNull();
+          expect(returnedRecords.testStationPNumber).toEqual("87-1369569");
         });
       });
 
