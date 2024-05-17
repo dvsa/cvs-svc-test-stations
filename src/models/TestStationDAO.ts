@@ -88,9 +88,9 @@ export class TestStationDAO {
     testStationItem: ITestStation
   ): Promise<PutItemOutput | ServiceException> {
     const pNumber = testStationItem.testStationPNumber;
-    const testStation = await this.getTestStationByPNumber(pNumber);
-    testStationItem.testStationId = testStation?.testStationId
-      ? testStation.testStationId
+    const testStationId = await this.getTestStationIdByPNumber(pNumber);
+    testStationItem.testStationId = testStationId
+      ? testStationId
       : testStationItem.testStationId;
     const params = {
       TableName: this.tableName,
@@ -98,6 +98,37 @@ export class TestStationDAO {
     };
     const command = new PutCommand(params);
     return await TestStationDAO.dbClient.send(command);
+  }
+
+  /**
+   * Get test station id by P number.
+   * @param testStationPNumber: string
+   * @returns Promise<string>, test station id
+   */
+  private async getTestStationIdByPNumber(
+    testStationPNumber: string
+  ): Promise<string> {
+    const params = {
+      TableName: this.tableName,
+      IndexName: "testStationPNumberIndex",
+      KeyConditionExpression: "#testStationPNumber = :testStationPNumber",
+      ExpressionAttributeNames: {
+        "#testStationPNumber": "testStationPNumber",
+      },
+      ExpressionAttributeValues: {
+        ":testStationPNumber": testStationPNumber,
+      },
+    };
+    const command = new QueryCommand(params);
+    const testStation = await TestStationDAO.dbClient.send(command);
+
+    if (!testStation || !testStation.Items || testStation.Count === 0) {
+      console.log("record not found for P Number: " + testStationPNumber);
+      return "";
+    }
+
+    /* tslint:disable:no-string-literal */
+    return testStation.Items[0]["testStationId"];
   }
 
   /**
