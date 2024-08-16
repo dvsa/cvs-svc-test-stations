@@ -408,7 +408,10 @@
     "testStationId": "25",
     "testStationAddress": "1042 Bow Lane",
     "testStationContactNumber": "02074892500",
-    "testStationEmails": [],
+    "testStationEmails": [
+      "sarah.rees@vef1.co.uk",
+      "phil.jones@vef1.co.uk"
+    ],
     "testStationGeneralNotes": "Example of English VEF site with inactive status",
     "testStationAccessNotes": "",
     "testStationLatitude": 181,
@@ -425,12 +428,15 @@
     "testStationId": "26",
     "testStationAddress": "3400 Tan-y-Bryn Road",
     "testStationContactNumber": "01492879456",
-    "testStationEmails": [],
+    "testStationEmails": [
+      "mike.davies@vef2.co.uk",
+      "bob.ross@vef2.co.uk"
+    ],
     "testStationGeneralNotes": "Example of Welsh VEF site with active status",
     "testStationAccessNotes": "",
     "testStationLatitude": 181,
     "testStationLongitude": 362,
-    "testStationName": "New Test ATF 2",
+    "testStationName": "VEF 2",
     "testStationPNumber": "V99901",
     "testStationPostcode": "LL30 1UU",
     "testStationCountry": "Wales",
@@ -442,12 +448,15 @@
     "testStationId": "27",
     "testStationAddress": "2108 Church Street",
     "testStationContactNumber": "02088925908",
-    "testStationEmails": [],
+    "testStationEmails": [
+      "norman.bates@vef3.co.uk",
+      "john.smith@vef3.co.uk"
+    ],
     "testStationGeneralNotes": "Example of English VEF site with active status",
     "testStationAccessNotes": "",
     "testStationLatitude": 181,
     "testStationLongitude": 362,
-    "testStationName": "ATF 3",
+    "testStationName": "VEF 3",
     "testStationPNumber": "V99902",
     "testStationPostcode": "TW1 3NJ",
     "testStationCountry": "England",
